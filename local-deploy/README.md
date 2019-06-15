@@ -3,7 +3,7 @@
 ## Build and deploy
 
 ```sh
-docker-compose up
+docker-compose up --build
 ```
 
 ## UI
