@@ -9,5 +9,5 @@ module "team_1" {
   team     = "test"
   owner    = "adam.pietrzycki@infinityworks.com"
   key_name = "adampie"
-  cidr     = "/32"
+  cidr     = "0.0.0.0/0"
 }
