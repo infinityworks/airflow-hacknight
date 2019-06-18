@@ -60,8 +60,14 @@ resource "aws_instance" "airflow" {
   user_data = <<EOF
 #!/bin/bash
 yum update -y
-yum install python-pip gcc git -y
+yum install python-pip gcc git docker -y
 pip install apache-airflow[s3]
+
+systemctl start docker
+systemctl enable docker
+
+git clone https://github.com/infinityworks/iw-airflow-hack-dummy-data-generator.git /root/datagen
+cd /root/datagen && docker build -t datagen . && docker run -d -e OUTPUT_BUCKET=airflow-input-"${var.team}" datagen
 
 git clone https://github.com/infinityworks/airflow-hacknight-"${var.team}".git /root/airflow/dags
 
