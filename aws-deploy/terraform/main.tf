@@ -3,11 +3,39 @@ provider "aws" {
 }
 
 
-module "demo" {
-  source = "./airflow"
+# module "demo" {
+#   source = "./airflow"
 
-  team     = "demo"
-  owner    = "adam.pietrzycki@infinityworks.com"
-  key_name = "adampie"
-  cidr     = "X.X.X.X/32"
-}
+#   team     = "demo"
+#   owner    = "adam.pietrzycki@infinityworks.com"
+#   key_name = "adampie"
+#   cidr     = "0.0.0.0/0"
+# }
+
+# module "fanta" {
+#   source = "./airflow"
+
+#   team     = "fanta"
+#   owner    = "adam.pietrzycki@infinityworks.com"
+#   key_name = "adampie"
+#   cidr     = "0.0.0.0/0"
+# }
+
+
+# module "coke" {
+#   source = "./airflow"
+
+#   team     = "coke"
+#   owner    = "adam.pietrzycki@infinityworks.com"
+#   key_name = "adampie"
+#   cidr     = "0.0.0.0/0"
+# }
+
+# module "sprite" {
+#   source = "./airflow"
+
+#   team     = "sprite"
+#   owner    = "adam.pietrzycki@infinityworks.com"
+#   key_name = "adampie"
+#   cidr     = "0.0.0.0/0"
+# }
