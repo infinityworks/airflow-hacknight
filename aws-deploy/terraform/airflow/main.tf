@@ -49,6 +49,7 @@ resource "aws_instance" "airflow" {
   instance_type          = "t2.medium"
   key_name               = "${var.key_name}"
   vpc_security_group_ids = ["${aws_security_group.sg.id}"]
+  iam_instance_profile   = "${aws_iam_instance_profile.airflow.id}"
 
   tags = {
     Name    = "airflow-${var.team}"
@@ -87,5 +88,57 @@ airflow delete_dag latest_only -y
 airflow delete_dag latest_only_with_trigger -y
 airflow delete_dag test_utils -y
 airflow delete_dag tutorial -y
+EOF
+}
+
+resource "aws_iam_role" "airflow" {
+  name = "airflow-role-${var.team}"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+
+  tags = {
+    Name    = "airflow-role-${var.team}"
+    Owner   = "${var.owner}"
+    Project = "Airflow Hacknight"
+  }
+}
+
+resource "aws_iam_instance_profile" "airflow" {
+    name = "airflow-profile-${var.team}"
+    role = "${aws_iam_role.airflow.name}"
+}
+
+resource "aws_iam_role_policy" "airflow" {
+  name   = "airflow-policy-${var.team}"
+  role   = "${aws_iam_role.airflow.id}"
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["s3:*"],
+      "Resource": [
+        "arn:aws:s3:::airflow-input-${var.team}",
+        "arn:aws:s3:::airflow-input-${var.team}/*",
+        "arn:aws:s3:::airflow-output-${var.team}",
+        "arn:aws:s3:::airflow-output-${var.team}/*"
+        ]
+    }
+  ]
+}
 EOF
 }
