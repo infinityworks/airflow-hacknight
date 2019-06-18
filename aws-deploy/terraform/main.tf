@@ -3,11 +3,11 @@ provider "aws" {
 }
 
 
-module "team_1" {
+module "demo" {
   source = "./airflow"
 
-  team     = "test"
+  team     = "demo"
   owner    = "adam.pietrzycki@infinityworks.com"
   key_name = "adampie"
-  cidr     = "0.0.0.0/0"
+  cidr     = "X.X.X.X/32"
 }
